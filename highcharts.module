@@ -10,9 +10,43 @@
 /**
  * Implementation of hook_init()
  */
-function highcharts_init() {
+/*function highcharts_init() {
   drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+}*/
+
+function highcharts_pieChart() {
+  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+  //drupal_add_js( '
+
+$samplecode = <<<EOD
+   $(document).ready(function() {
+      var chart1 = new Highcharts.Chart({
+         chart: {
+            renderTo: 'chart-container-1',
+            defaultSeriesType: 'bar'
+         },
+         title: {
+            text: 'Fruit Consumption'
+         },
+         xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+         },
+         yAxis: {
+            title: {
+               text: 'Fruit eaten'
+            }
+         },
+         series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+         }, {
+            name: 'John',
+            data: [5, 7, 3]
+         }]
+      });
+   });
+EOD;
+
+  drupal_add_js( $samplecode, 'inline', 'header');
+  echo "<div id='chart-container-1' height='480' width='640'></div>";
 }
-
-
-
