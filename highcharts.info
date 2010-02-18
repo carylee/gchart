@@ -1,0 +1,6 @@
+; $Id$
+name = Highcharts
+description = Adds custom interactive chart functionality for NUGO
+core = 6.x
+project = "highcharts"
+package = Charts
