@@ -1,0 +1,18 @@
+<?php
+// $Id$
+
+/**
+  * @file
+  * Drupal Module: highcharts
+  * Provides custom functionality for building highcharts
+ */
+
+/**
+ * Implementation of hook_init()
+ */
+function highcharts_init() {
+  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+}
+
+
+
