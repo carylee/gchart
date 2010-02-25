@@ -41,89 +41,33 @@ function highcharts_pieChart($vid, $skip=array()) {
 
   //drupal_add_js( '
 
-  $data = '';
-  foreach( $fullDataArray as $item ) {
-    $data .= "{
-            name: '" . $item['name'] . "',
-            y: " . $item['count'] . ",
-            },";
+  $data = "data.addColumn('string', 'Task');
+           data.addColumn('number', 'Hours per Day');
+           data.addRows(" . count($fullDataArray) . ";";
+           
+  foreach( $fullDataArray as $key=>$item ) {
+      $data .= 'data.setValue(' . $key . ', 0, ' . $item['name'] . ");\n";
+      $data .= 'data.setValue(' . $key . ', 1, ' . $item['count'] . ");\n";
   }
   //echo $data;
 
-$samplecode = <<<EOD
-		$(document).ready(function() {
-			var chart = new Highcharts.Chart({
+$googlejs = "google.load(\"visualization\", \"1\", {packages:[\"piechart\"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();\n";
 
-				chart: {
-					renderTo: 'chart-container',
-					margin: [50, 200, 60, 170]
-				},
 
-				title: {
-					text: 'Title of chart'
-				},
+$googlejs .= $data;
 
-				plotArea: {
-					shadow: null,
-					borderWidth: null,
-					backgroundColor: null
-				},
+$googlejs .= "
 
-				tooltip: {
-					formatter: function() {
-						return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
-					}
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
+      }";
 
-				},
 
-				plotOptions: {
-
-					pie: {
-
-						dataLabels: {
-
-							enabled: true,
-							formatter: function() {
-								if (this.y > 5) return this.point.name;
-							},
-							color: 'black',
-							style: {
-								font: '1opx Trebuchet MS, Verdana, sans-serif'
-							}
-						}
-					}
-				},
-
-				legend: {
-					layout: 'vertical',
-					style: {
-						left: 'auto',
-						bottom: 'auto',
-						right: '50px',
-						top: '100px'
-
-					}
-
-				},
-
-            series: [{
-					type: 'pie',
-					name: 'Series name',
-					data: [
-
-EOD;
-
-$samplecode .= $data;
-
-$samplecode .= <<<EOD
-					]
-				}]
-			});
-		});
-EOD;
-
-  drupal_add_js( $samplecode, 'inline', 'header');
-  echo "<div id='chart-container' style='height:600; width:640;'></div>";
+  drupal_add_js( $googlejs, 'inline', 'header');
+  echo "<div id='chart_div'></div>";
 }
 
 // From Chris' Code
