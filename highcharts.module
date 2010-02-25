@@ -22,6 +22,7 @@ function pr( $something ) {
 
 function highcharts_pieChart($vid, $skip=array()) {
   drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.src.js');
 	$vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
@@ -36,9 +37,18 @@ function highcharts_pieChart($vid, $skip=array()) {
     $fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
   }
   usort($fullDataArray, "highcharts_cmp");
-  pr($fullDataArray);
+  //pr($fullDataArray);
 
   //drupal_add_js( '
+
+  $data = '';
+  foreach( $fullDataArray as $item ) {
+    $data .= "{
+            name: '" . $item['name'] . "',
+            y: " . $item['count'] . ",
+            },";
+  }
+  //echo $data;
 
 $samplecode = <<<EOD
 		$(document).ready(function() {
@@ -50,7 +60,7 @@ $samplecode = <<<EOD
 				},
 
 				title: {
-					text: 'Browser market shares at a specific website, 2008'
+					text: 'Title of chart'
 				},
 
 				plotArea: {
@@ -73,13 +83,12 @@ $samplecode = <<<EOD
 						dataLabels: {
 
 							enabled: true,
-
 							formatter: function() {
 								if (this.y > 5) return this.point.name;
 							},
-							color: 'white',
+							color: 'black',
 							style: {
-								font: '13px Trebuchet MS, Verdana, sans-serif'
+								font: '1opx Trebuchet MS, Verdana, sans-serif'
 							}
 						}
 					}
@@ -97,38 +106,24 @@ $samplecode = <<<EOD
 
 				},
 
-			        series: [{
+            series: [{
 					type: 'pie',
-					name: 'Browser share',
-					data: [{
-							name: 'Firefox',
-							y: 44.2,
-							sliced: false
-						},
-						['IE7', 26.6],
-						{
-							name: 'IE6',
-							y: 20,
-							sliced: true
-						},
-						['Chrome', 3.1],
-						{
-							name: 'Safari',
-							y: 2.7,
-							sliced: false
-						},
-						['Opera', 2.3],
-						['Mozilla', 0.4]
-					]
-					//data: [3.40, 1.05, 2.90, 1.65, 1.35, 2.59, 1.39, 3.07, 2.82]
-				}]
-			});
-		});
+					name: 'Series name',
+					data: [
 
 EOD;
 
+$samplecode .= $data;
+
+$samplecode .= <<<EOD
+					]
+				}]
+			});
+		});
+EOD;
+
   drupal_add_js( $samplecode, 'inline', 'header');
-  echo "<div id='chart-container' style='height:480; width:640;'></div>";
+  echo "<div id='chart-container' style='height:600; width:640;'></div>";
 }
 
 // From Chris' Code
