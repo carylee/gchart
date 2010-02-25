@@ -144,7 +144,7 @@ function highcharts_gettaxtree_nonnull($vid, $skip=''){
 /**
  * Sorts array by node count.
  */
-function cmp($a, $b)
+function highcharts_cmp($a, $b)
 {
     if ($a['count'] == $b['count']) {
         return 0;
