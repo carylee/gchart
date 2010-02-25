@@ -61,7 +61,7 @@ $googlejs .= $data;
 $googlejs .= "
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
+        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'Chart title'});
       }";
 
 $sample = "
@@ -84,7 +84,7 @@ $sample = "
         data.setValue(4, 1, 7);
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
+        chart.draw(data, {width: 600, height: 440, is3D: true, title: 'Chart title'});
       }
 ";
 pr($googlejs);
