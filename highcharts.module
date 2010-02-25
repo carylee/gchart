@@ -21,8 +21,7 @@ function pr( $something ) {
   }
 
 function highcharts_pieChart($vid, $skip=array()) {
-  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
-  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.src.js');
+  drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 	$vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
