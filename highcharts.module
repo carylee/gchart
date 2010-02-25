@@ -64,7 +64,6 @@ $googlejs .= "
         chart.draw(data, {width: 600, height: 440, is3D: true, title: 'Chart title'});
       }";
 
-pr($googlejs);
   drupal_add_js( $googlejs, 'inline', 'header', FALSE, FALSE, FALSE );
   echo "<div id='chart_div'></div>";
 }
