@@ -61,7 +61,7 @@ $googlejs .= $data;
 $googlejs .= "
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'Chart title'});
+        chart.draw(data, {width: 600, height: 440, is3D: true, title: 'Chart title'});
       }";
 
 pr($googlejs);
