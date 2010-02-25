@@ -14,8 +14,13 @@
   drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
 }*/
 
-function highcharts_pieChart() {
+function highcharts_pieChart($vid, $skip=array()) {
   drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+	$vocab = taxonomy_vocabulary_load($vid);
+	$vname = $vocab->name;
+	$extendedValues = array();
+	$children = getTaxTree_nonnull($vid, $skip);
+	$numChildren = count($children);
   //drupal_add_js( '
 
 $samplecode = <<<EOD
@@ -107,4 +112,42 @@ EOD;
 
   drupal_add_js( $samplecode, 'inline', 'header');
   echo "<div id='chart-container' style='height:480; width:640;'></div>";
+}
+
+// From Chris' Code
+function getTaxTree_nonnull($vid, $skip=''){
+	$children = taxonomy_get_children(arg(2), $vid);
+      if(!$children) {
+        $custom_parent = taxonomy_get_parents(arg(2));
+          $parent_tree = array();
+          foreach ($custom_parent as $custom_child => $key) {
+            $parent_tree = taxonomy_get_tree($vid, $key->tid);
+          }
+          $children = $parent_tree;
+      }
+   	foreach ($children as $key => $value){
+   		
+   		$nodeCount = taxonomy_term_count_nodes($value->tid);
+		if ($nodeCount == 0){
+			unset($children[$key]);
+			
+		} else {
+		}
+		if($value->tid == $skip[0]){
+			unset($children[$key]);
+		} else {
+		}
+	}
+	$children = array_values($children);
+    return $children;
+}
+/**
+ * Sorts array by node count.
+ */
+function cmp($a, $b)
+{
+    if ($a['count'] == $b['count']) {
+        return 0;
+    }
+    return ($a['count'] > $b['count']) ? -1 : 1;
 }
