@@ -19,7 +19,7 @@ function highcharts_pieChart($vid, $skip=array()) {
 	$vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
-	$children = getTaxTree_nonnull($vid, $skip);
+	$children = highcharts_gettaxtree_nonnull($vid, $skip);
 	$numChildren = count($children);
   //drupal_add_js( '
 
@@ -115,7 +115,7 @@ EOD;
 }
 
 // From Chris' Code
-function getTaxTree_nonnull($vid, $skip=''){
+function highcharts_gettaxtree_nonnull($vid, $skip=''){
 	$children = taxonomy_get_children(arg(2), $vid);
       if(!$children) {
         $custom_parent = taxonomy_get_parents(arg(2));
