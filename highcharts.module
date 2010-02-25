@@ -21,7 +21,8 @@ function pr( $something ) {
   }
 
 function highcharts_pieChart($vid, $skip=array()) {
-  drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
+  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.src.js');
 	$vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
@@ -64,8 +65,30 @@ $googlejs .= "
         chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
       }";
 
+$sample = "
+      google.load(\"visualization\", \"1\", {packages:[\"piechart\"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Task');
+        data.addColumn('number', 'Hours per Day');
+        data.addRows(5);
+        data.setValue(0, 0, 'Work');
+        data.setValue(0, 1, 11);
+        data.setValue(1, 0, 'Eat');
+        data.setValue(1, 1, 2);
+        data.setValue(2, 0, 'Commute');
+        data.setValue(2, 1, 2);
+        data.setValue(3, 0, 'Watch TV');
+        data.setValue(3, 1, 2);
+        data.setValue(4, 0, 'Sleep');
+        data.setValue(4, 1, 7);
 
-  drupal_add_js( $googlejs, 'inline', 'header');
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
+      }
+";
+  drupal_add_js( $sample, 'inline', 'header');
   echo "<div id='chart_div'></div>";
 }
 
