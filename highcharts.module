@@ -21,8 +21,7 @@ function pr( $something ) {
   }
 
 function highcharts_pieChart($vid, $skip=array()) {
-  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
-  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.src.js');
+  drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 	$vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
@@ -42,11 +41,11 @@ function highcharts_pieChart($vid, $skip=array()) {
   //drupal_add_js( '
 
   $data = "data.addColumn('string', 'Task');
-           data.addColumn('number', 'Hours per Day');
-           data.addRows(" . count($fullDataArray) . ";";
+data.addColumn('number', 'Hours per Day');
+data.addRows(" . count($fullDataArray) . ");\n";
            
   foreach( $fullDataArray as $key=>$item ) {
-      $data .= 'data.setValue(' . $key . ', 0, ' . $item['name'] . ");\n";
+      $data .= 'data.setValue(' . $key . ', 0, \'' . $item['name'] . "');\n";
       $data .= 'data.setValue(' . $key . ', 1, ' . $item['count'] . ");\n";
   }
   //echo $data;
@@ -88,7 +87,8 @@ $sample = "
         chart.draw(data, {width: 400, height: 240, is3D: true, title: 'My Daily Activities'});
       }
 ";
-  drupal_add_js( $sample, 'inline', 'header');
+pr($googlejs);
+  drupal_add_js( $googlejs, 'inline', 'header', FALSE, FALSE, FALSE );
   echo "<div id='chart_div'></div>";
 }
 
