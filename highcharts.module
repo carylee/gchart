@@ -25,6 +25,7 @@ function highcharts_pieChart($vid, $skip=array()) {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 
   $fullDataArray = highcharts_get_data( $vid, $skip );
+  //pr($fullDataArray);
 
   $data = "data.addColumn('string', 'Task');
 data.addColumn('number', 'Hours per Day');
@@ -34,7 +35,6 @@ data.addRows(" . count($fullDataArray) . ");\n";
       $data .= 'data.setValue(' . $key . ', 0, \'' . $item['name'] . "');\n";
       $data .= 'data.setValue(' . $key . ', 1, ' . $item['count'] . ");\n";
   }
-  //echo $data;
 
 $googlejs = "google.load(\"visualization\", \"1\", {packages:[\"piechart\"]});
       google.setOnLoadCallback(drawChart);
@@ -70,6 +70,7 @@ function highcharts_get_data( $vid, $skip=array() ) {
 		$fullDataArray[$currentChild]['name'] = $currChildName;
 		$fullDataArray[$currentChild]['id'] = $currChildID;
 		$fullDataArray[$currentChild]['count'] = $nodeCount;
+    //echo '<p>$currChildID = ' . $currChildID . ' and $nodeCount = ' . $nodeCount. '</p>';
 	}
   usort($fullDataArray, "highcharts_cmp");
   return $fullDataArray;
