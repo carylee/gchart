@@ -81,7 +81,7 @@ class GChart
   
   public function addDatum( $label, $value )
   {
-    $data[] = array( 'label'=>$datum, 'value'=>$value);
+    $this->data[] = array( 'label'=>$label, 'value'=>$value);
   }
 
   public function addData( $data )
