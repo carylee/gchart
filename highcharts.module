@@ -13,6 +13,7 @@
 /*function highcharts_init() {
   drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
 }*/
+require_once( drupal_get_path('module', 'highcharts') . '/gchart.php');
 
 function pr( $something ) {
   echo "<pre>";
@@ -22,26 +23,8 @@ function pr( $something ) {
 
 function highcharts_pieChart($vid, $skip=array()) {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
-	$vocab = taxonomy_vocabulary_load($vid);
-	$vname = $vocab->name;
-	$extendedValues = array();
-	$children = highcharts_gettaxtree_nonnull($vid, $skip);
-	$numChildren = count($children);
-	foreach ($children as $term) {
-		$currentChild++;
-		$currChildName = $term->name;
-		$currChildID = $term->tid;
-		//$fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
-		$realData = views_get_view_result(chart_views, block_2, $currChildID);
-		$nodeCount = count($realData);
-		$fullDataArray[$currentChild]['name'] = $currChildName;
-		$fullDataArray[$currentChild]['id'] = $currChildID;
-		$fullDataArray[$currentChild]['count'] = $nodeCount;
-	}
-  usort($fullDataArray, "highcharts_cmp");
-  //pr($fullDataArray);
 
-  //drupal_add_js( '
+  $fullDataArray = highcharts_get_data( $vid, $skip );
 
   $data = "data.addColumn('string', 'Task');
 data.addColumn('number', 'Hours per Day');
@@ -70,6 +53,28 @@ $googlejs .= "
   drupal_add_js( $googlejs, 'inline', 'header', FALSE, FALSE, FALSE );
   echo "<div id='chart_div'></div>";
 }
+
+function highcharts_get_data( $vid, $skip=array() ) {
+  $vocab = taxonomy_vocabulary_load($vid);
+	$vname = $vocab->name;
+	$extendedValues = array();
+	$children = highcharts_gettaxtree_nonnull($vid, $skip);
+	$numChildren = count($children);
+	foreach ($children as $term) {
+		$currentChild++;
+		$currChildName = $term->name;
+		$currChildID = $term->tid;
+		//$fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
+		$realData = views_get_view_result(chart_views, block_2, $currChildID);
+		$nodeCount = count($realData);
+		$fullDataArray[$currentChild]['name'] = $currChildName;
+		$fullDataArray[$currentChild]['id'] = $currChildID;
+		$fullDataArray[$currentChild]['count'] = $nodeCount;
+	}
+  usort($fullDataArray, "highcharts_cmp");
+  return $fullDataArray;
+}
+
 
 // From Chris' Code
 function highcharts_gettaxtree_nonnull($vid, $skip=''){
