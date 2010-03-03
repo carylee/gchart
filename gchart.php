@@ -17,7 +17,7 @@ class GChart
 
   // Configuration Options
 
-  public $is3D = false;
+  public $is3D = 'false';
   /**
    * enableToolTip
    * If set to true, tooltips are shown when the user clicks on a slice
