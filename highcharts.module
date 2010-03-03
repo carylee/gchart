@@ -27,14 +27,17 @@ function highcharts_pieChart($vid, $skip=array()) {
 	$extendedValues = array();
 	$children = highcharts_gettaxtree_nonnull($vid, $skip);
 	$numChildren = count($children);
-  foreach ($children as $term) {
-    $currentChild++;
-    $currChildName = $term->name;
-    $currChildID = $term->tid;
-    $fullDataArray[$currentChild]['name'] = $currChildName;
-    $fullDataArray[$currentChild]['id'] = $currChildID;
-    $fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
-  }
+	foreach ($children as $term) {
+		$currentChild++;
+		$currChildName = $term->name;
+		$currChildID = $term->tid;
+		//$fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
+		$realData = views_get_view_result(chart_views, block_2, $currChildID);
+		$nodeCount = count($realData);
+		$fullDataArray[$currentChild]['name'] = $currChildName;
+		$fullDataArray[$currentChild]['id'] = $currChildID;
+		$fullDataArray[$currentChild]['count'] = $nodeCount;
+	}
   usort($fullDataArray, "highcharts_cmp");
   //pr($fullDataArray);
 
