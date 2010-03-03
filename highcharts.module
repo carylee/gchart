@@ -25,34 +25,27 @@ function highcharts_pieChart($vid, $skip=array()) {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 
   $fullDataArray = highcharts_get_data( $vid, $skip );
+  $foo = highcharts_restructure( $fullDataArray );
+  pr($foo);
   //pr($fullDataArray);
-
-  $data = "data.addColumn('string', 'Task');
-data.addColumn('number', 'Hours per Day');
-data.addRows(" . count($fullDataArray) . ");\n";
-           
-  foreach( $fullDataArray as $key=>$item ) {
-      $data .= 'data.setValue(' . $key . ', 0, \'' . $item['name'] . "');\n";
-      $data .= 'data.setValue(' . $key . ', 1, ' . $item['count'] . ");\n";
-  }
-
-$googlejs = "google.load(\"visualization\", \"1\", {packages:[\"piechart\"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = new google.visualization.DataTable();\n";
-
-
-$googlejs .= $data;
-
-$googlejs .= "
-
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 600, height: 440, is3D: true, title: 'Chart title'});
-      }";
-
-  drupal_add_js( $googlejs, 'inline', 'header', FALSE, FALSE, FALSE );
+  $ch = new GChart( $foo );
+  $ch->xlabel = "X Label";
+  $ch->ylabel = "Y Label";
+  $ch->is3D = "true";
+  $js = $ch->makeChart();
+  drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
   echo "<div id='chart_div'></div>";
 }
+
+function highcharts_restructure( $data ) {
+  $labelsValues = array();
+  foreach( $data as $datum ) {
+    $labelsValues[ $datum['name'] ] = $datum['count'];
+  }
+
+  return $labelsValues;
+}
+
 
 function highcharts_get_data( $vid, $skip=array() ) {
   $vocab = taxonomy_vocabulary_load($vid);

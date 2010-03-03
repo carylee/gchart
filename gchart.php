@@ -101,8 +101,9 @@ class GChart
     foreach( $this->data as $index=>$datum )
     {
       $datatable .= 'data.setValue('.$index.', 0, \''.$datum['label']."');\n";
-      $datatable .= 'data.setValue('.$index.', 1, \''.$datum['value']."');\n";
+      $datatable .= 'data.setValue('.$index.', 1, '. $datum['value'] . ");\n";
     }
+    //echo $datatable;
     return $datatable;
   }
 
