@@ -108,7 +108,7 @@ class GChart
 
   private function makeVarChart() {
     $varChart = 'var chart = new.visualization.'.$this->type.'(document.getElementById(\''.$this->divName."'));\n";
-    $varChart .= 'chart.draw(data, {' . $this->makeOptions() ".});\n";
+    $varChart .= 'chart.draw(data, {' . $this->makeOptions() ."});\n";
   }
 
   private function makeOptions() {
@@ -157,3 +157,4 @@ class GChart
 
     return $chart;
   }
+}
