@@ -108,7 +108,7 @@ class GChart
   }
 
   private function makeVarChart() {
-    $varChart = 'var chart = new.visualization.'.$this->type.'(document.getElementById(\''.$this->divName."'));\n";
+    $varChart = 'var chart = new google.visualization.'.$this->type.'(document.getElementById(\''.$this->divName."'));\n";
     $varChart .= 'chart.draw(data, {' . $this->makeOptions() ."});\n";
     return $varChart;
   }
@@ -118,7 +118,7 @@ class GChart
     $options .= 'enableTooltip: ' . $this->enableTooltip . ', ';
     $options .= 'height: ' . $this->height . ', ';
     $options .= 'is3D: ' . $this->is3D . ', ';
-    $options .= 'legend: ' . $this->legend . ', ';
+    $options .= 'legend: \'' . $this->legend . '\', ';
     $options .= 'pieJoinAngle: ' . $this->pieJoinAngle . ', ';
     $options .= 'pieMinimalAngle: ' . $this->pieMinimalAngle . ', ';
     $options .= 'tooltipFontSize: ' . $this->tooltipFontSize . ', ';
