@@ -21,23 +21,67 @@ function pr( $something ) {
   echo "</pre>";
   }
 
-function highcharts_pieChart($vid, $skip=array()) {
+function highcharts_init() {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
+}
 
-  $fullDataArray = highcharts_get_data( $vid, $skip );
-  $foo = highcharts_restructure( $fullDataArray );
-  $ch = new GChart( $foo );
-  $ch->xlabel = "X Label";
-  $ch->ylabel = "Y Label";
-  $ch->is3D = "true";
-  $ch->width = 800;
-  $ch->height = 500;
-  $ch->legend = 'label';
-  $ch->enableTooltip = 'false';
-  $ch->legendFontSize = '12';
+function highcharts_pieChart($vid, $skip=array(), $options=array()) {
+  $data = highcharts_restructure( highcharts_get_data( $vid, $skip ) );
+  $ch = new GChart( $data );
+
+  $divName = 'chart_div';
+
+  $ch->divName = $divName;
+
+  if(!empty($options['xlabel']))
+    $ch->xlabel = $options['xlabel'];
+
+  if(!empty($options['ylabel']))
+    $ch->ylabel = $options['ylabel'];
+
+  if(isset($options['is3D']))
+    $ch->is3D = $options['is3D'];
+
+  if(!empty($options['width']))
+    $ch->width = $options['width'];
+  
+  if(!empty($options['height']))
+    $ch->height = $options['height'];
+  
+  if(!empty($options['legend']))
+    $ch->legend = $options['legend'];
+
+  if(!empty($options['legendFontSize']))
+    $ch->legendFontSize = $options['legendFontSize'];
+
+  if(isset($options['enableTooltip']))
+    $ch->enableTooltip = $options['enableTooltip'];
+
+  if(!empty($options['tooltipFontSize']))
+    $ch->tooltipFontSize = $options['tooltipFontSize'];
+  
+  if(!empty($options['tooltipHeight']))
+    $ch->tooltipHeight = $options['tooltipHeight'];
+  
+  if(!empty($options['tooltipWidth']))
+    $ch->tooltipWidth = $options['tooltipWidth'];
+  
+  if(!empty($options['pieJoinAngle']))
+    $ch->pieJoinAngle = $options['pieJoinAngle'];
+  
+  if(!empty($options['pieMinimalAngle']))
+    $ch->pieMinimalAngle = $options['pieMinimalAngle'];
+  
+  if(!empty($options['title']))
+    $ch->title = $options['title'];
+  
+  if(!empty($options['titleFontSize']))
+    $ch->titleFontSize = $options['titleFontSize'];
+  
+  
   $js = $ch->makeChart();
   drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
-  echo "<div id='chart_div'></div>";
+  echo "<div id='$divName'></div>";
 }
 
 function highcharts_restructure( $data ) {
