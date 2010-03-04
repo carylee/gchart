@@ -21,10 +21,6 @@ function pr( $something ) {
   echo "</pre>";
   }
 
-function gchart_init() {
-  drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
-}
-
 /**
   * Generates a pie chart based on a taxonomy vocabulary id
   * Pass the vocabulary ID, a possible array of IDs to skip, and an options array
@@ -37,6 +33,7 @@ function gchart_init() {
   */
 
 function gchart_pieChart($vid, $skip=array(), $options=array()) {
+  drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
   $data = gchart_restructure( gchart_get_data( $vid, $skip ) );
   $ch = new GChart( $data, $options );
   $ch->divName = 'chart_div';
