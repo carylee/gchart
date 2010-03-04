@@ -25,14 +25,21 @@ function highcharts_init() {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 }
 
+/**
+  * Generates a pie chart based on a taxonomy vocabulary id
+  * Pass the vocabulary ID, a possible array of IDs to skip, and an options array
+  * $options should be of the form array( 'name'=>'value' );
+  * All values should be provided in quotes and all options are optional
+  * Parameters include:
+  * width, height, title, xlabel, ylabel, is3D, legend, legendFontSize, titleFontSize
+  * enableTooltip, tooltipFontSize, tooltipHeight, tooltipWidth, pieJoinAngle, pieMinimalAngle
+  * See explanation of options: http://code.google.com/apis/visualization/documentation/gallery/piechart.html
+  */
+
 function highcharts_pieChart($vid, $skip=array(), $options=array()) {
   $data = highcharts_restructure( highcharts_get_data( $vid, $skip ) );
   $ch = new GChart( $data, $options );
-
-  //$divName = 'chart_div';
   $ch->divName = 'chart_div';
-  
-  
   $js = $ch->makeChart();
   drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
   echo $ch->makeDiv();
