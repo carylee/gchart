@@ -27,15 +27,15 @@ function highcharts_init() {
 
 function highcharts_pieChart($vid, $skip=array(), $options=array()) {
   $data = highcharts_restructure( highcharts_get_data( $vid, $skip ) );
-  $ch = new GChart( $data );
+  $ch = new GChart( $data, $options );
 
-  $divName = 'chart_div';
-  $ch->divName = $divName;
+  //$divName = 'chart_div';
+  $ch->divName = 'chart_div';
   
   
   $js = $ch->makeChart();
   drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
-  echo "<div id='$divName'></div>";
+  echo $ch->makeDiv();
 }
 
 function highcharts_restructure( $data ) {
