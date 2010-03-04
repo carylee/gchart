@@ -176,7 +176,7 @@ class GChart
     $options .= 'width: ' . $this->width . ', ';
 
     if( $this->title ) {
-      $options .= 'title: ' . $this->title . ', ';
+      $options .= 'title: \'' . $this->title . '\', ';
     }
 
     if( $this->legendFontSize ) {
