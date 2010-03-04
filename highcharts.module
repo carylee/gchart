@@ -30,53 +30,7 @@ function highcharts_pieChart($vid, $skip=array(), $options=array()) {
   $ch = new GChart( $data );
 
   $divName = 'chart_div';
-
   $ch->divName = $divName;
-
-  if(!empty($options['xlabel']))
-    $ch->xlabel = $options['xlabel'];
-
-  if(!empty($options['ylabel']))
-    $ch->ylabel = $options['ylabel'];
-
-  if(isset($options['is3D']))
-    $ch->is3D = $options['is3D'];
-
-  if(!empty($options['width']))
-    $ch->width = $options['width'];
-  
-  if(!empty($options['height']))
-    $ch->height = $options['height'];
-  
-  if(!empty($options['legend']))
-    $ch->legend = $options['legend'];
-
-  if(!empty($options['legendFontSize']))
-    $ch->legendFontSize = $options['legendFontSize'];
-
-  if(isset($options['enableTooltip']))
-    $ch->enableTooltip = $options['enableTooltip'];
-
-  if(!empty($options['tooltipFontSize']))
-    $ch->tooltipFontSize = $options['tooltipFontSize'];
-  
-  if(!empty($options['tooltipHeight']))
-    $ch->tooltipHeight = $options['tooltipHeight'];
-  
-  if(!empty($options['tooltipWidth']))
-    $ch->tooltipWidth = $options['tooltipWidth'];
-  
-  if(!empty($options['pieJoinAngle']))
-    $ch->pieJoinAngle = $options['pieJoinAngle'];
-  
-  if(!empty($options['pieMinimalAngle']))
-    $ch->pieMinimalAngle = $options['pieMinimalAngle'];
-  
-  if(!empty($options['title']))
-    $ch->title = $options['title'];
-  
-  if(!empty($options['titleFontSize']))
-    $ch->titleFontSize = $options['titleFontSize'];
   
   
   $js = $ch->makeChart();

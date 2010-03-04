@@ -2,10 +2,55 @@
 
 class GChart 
 {
-  public function GChart( $data ) 
+  public function GChart( $data, $options=array() ) 
   // expects an array of label => value
   {
     $this->addData( $data );
+
+    if(!empty($options['xlabel']))
+      $this->xlabel = $options['xlabel'];
+
+    if(!empty($options['ylabel']))
+      $this->ylabel = $options['ylabel'];
+
+    if(isset($options['is3D']))
+      $this->is3D = $options['is3D'];
+
+    if(!empty($options['width']))
+      $this->width = $options['width'];
+    
+    if(!empty($options['height']))
+      $this->height = $options['height'];
+    
+    if(!empty($options['legend']))
+      $this->legend = $options['legend'];
+
+    if(!empty($options['legendFontSize']))
+      $this->legendFontSize = $options['legendFontSize'];
+
+    if(isset($options['enableTooltip']))
+      $this->enableTooltip = $options['enableTooltip'];
+
+    if(!empty($options['tooltipFontSize']))
+      $this->tooltipFontSize = $options['tooltipFontSize'];
+    
+    if(!empty($options['tooltipHeight']))
+      $this->tooltipHeight = $options['tooltipHeight'];
+    
+    if(!empty($options['tooltipWidth']))
+      $this->tooltipWidth = $options['tooltipWidth'];
+    
+    if(!empty($options['pieJoinAngle']))
+      $this->pieJoinAngle = $options['pieJoinAngle'];
+    
+    if(!empty($options['pieMinimalAngle']))
+      $this->pieMinimalAngle = $options['pieMinimalAngle'];
+    
+    if(!empty($options['title']))
+      $this->title = $options['title'];
+    
+    if(!empty($options['titleFontSize']))
+      $this->titleFontSize = $options['titleFontSize'];
   }
   
   private $data = array();
@@ -105,6 +150,10 @@ class GChart
     }
     //echo $datatable;
     return $datatable;
+  }
+
+  public function makeDiv() {
+    return '<div id="'. $this->divName .'"></div>';
   }
 
   private function makeVarChart() {
