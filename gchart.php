@@ -7,6 +7,10 @@ class GChart
   {
     $this->addData( $data );
 
+    if(!empty($options['type'])) {
+      $this->type = $options['type'];
+    }
+
     if(!empty($options['xlabel']))
       $this->xlabel = $options['xlabel'];
 

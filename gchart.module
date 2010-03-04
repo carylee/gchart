@@ -36,7 +36,7 @@ function gchart_pieChart($vid, $skip=array(), $options=array()) {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
   $data = gchart_restructure( gchart_get_data( $vid, $skip ) );
   $ch = new GChart( $data, $options );
-  $ch->divName = 'chart_div';
+  $ch->divName = 'chart_'.$vid;
   $js = $ch->makeChart();
   drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
   echo $ch->makeDiv();
