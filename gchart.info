@@ -1,6 +1,6 @@
 ; $Id$
-name = Highcharts
+name = Google Charts
 description = Adds custom interactive chart functionality for NUGO
 core = 6.x
-project = "highcharts"
+project = "gchart"
 package = Charts

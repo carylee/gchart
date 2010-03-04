@@ -3,17 +3,17 @@
 
 /**
   * @file
-  * Drupal Module: highcharts
-  * Provides custom functionality for building highcharts
+  * Drupal Module: gchart
+  * Provides custom functionality for building gchart
  */
 
 /**
  * Implementation of hook_init()
  */
-/*function highcharts_init() {
-  drupal_add_js( drupal_get_path('module', 'highcharts') . '/js/highcharts.js');
+/*function gchart_init() {
+  drupal_add_js( drupal_get_path('module', 'gchart') . '/js/gchart.js');
 }*/
-require_once( drupal_get_path('module', 'highcharts') . '/gchart.php');
+require_once( drupal_get_path('module', 'gchart') . '/gchart.php');
 
 function pr( $something ) {
   echo "<pre>";
@@ -21,7 +21,7 @@ function pr( $something ) {
   echo "</pre>";
   }
 
-function highcharts_init() {
+function gchart_init() {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
 }
 
@@ -36,8 +36,8 @@ function highcharts_init() {
   * See explanation of options: http://code.google.com/apis/visualization/documentation/gallery/piechart.html
   */
 
-function highcharts_pieChart($vid, $skip=array(), $options=array()) {
-  $data = highcharts_restructure( highcharts_get_data( $vid, $skip ) );
+function gchart_pieChart($vid, $skip=array(), $options=array()) {
+  $data = gchart_restructure( gchart_get_data( $vid, $skip ) );
   $ch = new GChart( $data, $options );
   $ch->divName = 'chart_div';
   $js = $ch->makeChart();
@@ -45,7 +45,7 @@ function highcharts_pieChart($vid, $skip=array(), $options=array()) {
   echo $ch->makeDiv();
 }
 
-function highcharts_restructure( $data ) {
+function gchart_restructure( $data ) {
   $labelsValues = array();
   foreach( $data as $datum ) {
     $labelsValues[ $datum['name'] ] = $datum['count'];
@@ -55,11 +55,11 @@ function highcharts_restructure( $data ) {
 }
 
 
-function highcharts_get_data( $vid, $skip=array() ) {
+function gchart_get_data( $vid, $skip=array() ) {
   $vocab = taxonomy_vocabulary_load($vid);
 	$vname = $vocab->name;
 	$extendedValues = array();
-	$children = highcharts_gettaxtree_nonnull($vid, $skip);
+	$children = gchart_gettaxtree_nonnull($vid, $skip);
 	$numChildren = count($children);
 	foreach ($children as $term) {
 		$currentChild++;
@@ -73,13 +73,13 @@ function highcharts_get_data( $vid, $skip=array() ) {
 		$fullDataArray[$currentChild]['count'] = $nodeCount;
     //echo '<p>$currChildID = ' . $currChildID . ' and $nodeCount = ' . $nodeCount. '</p>';
 	}
-  usort($fullDataArray, "highcharts_cmp");
+  usort($fullDataArray, "gchart_cmp");
   return $fullDataArray;
 }
 
 
 // From Chris' Code
-function highcharts_gettaxtree_nonnull($vid, $skip=''){
+function gchart_gettaxtree_nonnull($vid, $skip=''){
 	$children = taxonomy_get_children(arg(2), $vid);
       if(!$children) {
         $custom_parent = taxonomy_get_parents(arg(2));
@@ -108,7 +108,7 @@ function highcharts_gettaxtree_nonnull($vid, $skip=''){
 /**
  * Sorts array by node count.
  */
-function highcharts_cmp($a, $b)
+function gchart_cmp($a, $b)
 {
     if ($a['count'] == $b['count']) {
         return 0;
