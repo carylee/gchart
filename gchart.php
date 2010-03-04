@@ -44,8 +44,8 @@ class GChart
    */
   public $legend = 'right'; // 
 
-  public $width = 400; // Height of the chart in pixels
-  public $height = 240; // Width of the chart in pixels
+  public $width = 600; // Height of the chart in pixels
+  public $height = 400; // Width of the chart in pixels
 
   /**
    * pieJoinAngle
