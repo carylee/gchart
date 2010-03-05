@@ -2,14 +2,26 @@
 
 class GChart 
 {
-  public function GChart( $data, $options=array() ) 
+  public function GChart( $data, $type, $options=array() ) 
   // expects an array of label => value
   {
     $this->addData( $data );
 
-    if(!empty($options['type'])) {
+    /*if(!empty($options['type'])) {
       $this->type = $options['type'];
-    }
+    }*/
+    $type = strtolower($type);
+    switch ($type) {
+      case "linechart":
+        $this->type = 'LineChart';
+        break;
+      case "piechart"
+        $this->type = 'PieChart';
+        break;
+      default:
+        $this->type = 'PieChart';
+        break;
+      }
 
     if(!empty($options['xlabel']))
       $this->xlabel = $options['xlabel'];
