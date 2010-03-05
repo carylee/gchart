@@ -194,6 +194,10 @@ class GChart
     return $options;
   }
 
+  public function headerJs() {
+    return '<script type="text/javascript" src="http://www.google.com/jsapi"></script>';
+  }
+
   private function makeDrawChart()
   {
     $drawChart = "function drawChart() {\n";
