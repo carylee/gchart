@@ -42,8 +42,8 @@ function gchart_pieChart($vid, $skip=array(), $options=array()) {
   echo $ch->makeDiv();
 }
 
-function gchart_lineChart($vid, $skip=array(), $options=array()) {
-  $data = gchart_restructure( gchart_get_data( $vid, $skip ) );
+function gchart_lineChart($year, $options=array()) {
+  $data = gchart_programs_by_year( $year );
   $ch = new GChart( $data, 'LineChart', $options );
   $ch->divName = 'chart_'.$vid;
   drupal_set_html_head( $ch->headerJs() );
@@ -122,3 +122,18 @@ function gchart_cmp($a, $b)
     }
     return ($a['count'] > $b['count']) ? -1 : 1;
 }
+
+function gchart_programs_by_year( $start ) {
+  // A really stripped version of Chris' code
+  $today = getdate();
+  $thisYear = $today[year];
+  $span = $thisYear - $start;
+  $data = array();
+  for ( $counter = 0; $counter <= $span; $counter ++) {
+    $currYr = $start + $counter;
+    $initData = views_get_view_result(chart_views, block_1, $currYr);
+    $yrCount = count($initData);
+    $data[$currYr] = $yrCount;
+  }
+  return $data;
+} 
