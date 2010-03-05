@@ -32,15 +32,32 @@ function pr( $something ) {
   * See explanation of options: http://code.google.com/apis/visualization/documentation/gallery/piechart.html
   */
 
-function gchart_pieChart($vid, $skip=array(), $options=array()) {
+function gchart_pieChart($vid, $skip=array(), $options=array(), $showTable=false) {
   drupal_set_html_head('<script type="text/javascript" src="http://www.google.com/jsapi"></script>');
-  $data = gchart_restructure( gchart_get_data( $vid, $skip ) );
+  $taxData = gchart_get_data( $vid, $skip );
+  $data = gchart_restructure( $taxData['data'] );
   $ch = new GChart( $data, 'PieChart', $options );
   $ch->divName = 'chart_'.$vid;
   $js = $ch->makeChart();
   drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
   echo $ch->makeDiv();
+  if( $showTable ) {
+    echo gchart_table( $taxData );
+  }
 }
+
+function gchart_table( $taxData ) {
+  global $base_url;
+  $table = '<table class="piechart-table sortable"><thead><tr><td>' . $taxData['info']['vname'];
+  $table .= '</td><td>Number of Programs</td></tr></tbody>';
+  foreach( $taxData['data'] as $key=>$value ) {
+    $table .= '<tr><td><a href="'.$base_url.'/program-search/results/taxonomy%3A'. $value['id'];
+    $table .= '">' . $value['name'] . '</a></td><td>' . $value['count'] . '</td></tr>';
+  }
+  $table .= '</tbody></table>';
+  return $table;
+}
+
 
 function gchart_lineChart($year, $options=array()) {
   $data = gchart_programs_by_year( $year );
@@ -81,7 +98,7 @@ function gchart_get_data( $vid, $skip=array() ) {
     //echo '<p>$currChildID = ' . $currChildID . ' and $nodeCount = ' . $nodeCount. '</p>';
 	}
   usort($fullDataArray, "gchart_cmp");
-  return $fullDataArray;
+  return array('data'=>$fullDataArray, 'info'=>array('vname'=>$vname,) );
 }
 
 
