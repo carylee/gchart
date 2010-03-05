@@ -49,7 +49,7 @@ function gchart_pieChart($vid, $skip=array(), $options=array(), $showTable=false
 function gchart_table( $taxData ) {
   global $base_url;
   $table = '<table class="piechart-table sortable"><thead><tr><td>' . $taxData['info']['vname'];
-  $table .= '</td><td>Number of Programs</td></tr></tbody>';
+  $table .= '</td><td>Number of Programs</td></tr></tbody><tbody>';
   foreach( $taxData['data'] as $key=>$value ) {
     $table .= '<tr><td><a href="'.$base_url.'/program-search/results/taxonomy%3A'. $value['id'];
     $table .= '">' . $value['name'] . '</a></td><td>' . $value['count'] . '</td></tr>';
