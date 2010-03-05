@@ -15,7 +15,7 @@ class GChart
       case "linechart":
         $this->type = 'LineChart';
         break;
-      case "piechart"
+      case "piechart":
         $this->type = 'PieChart';
         break;
       default:
