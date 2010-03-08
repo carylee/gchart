@@ -69,6 +69,16 @@ function gchart_lineChart($year, $options=array()) {
   echo $ch->makeDiv();
 }
 
+function gchart_regionChart($options=array()) {
+  $data = gchart_get_country_count();
+  $ch = new GChart( $data, 'geomap_region', $options);
+  $ch->divName = 'chart_region';
+  drupal_set_html_head( $ch->headerJs() );
+  $js = $ch->makeChart();
+  drupal_add_js( $js, 'inline', 'header', FALSE, FALSE, FALSE );
+  echo $ch->makeDiv();
+}
+
 function gchart_restructure( $data ) {
   $labelsValues = array();
   foreach( $data as $datum ) {
@@ -91,6 +101,7 @@ function gchart_get_data( $vid, $skip=array() ) {
 		$currChildID = $term->tid;
 		//$fullDataArray[$currentChild]['count'] = taxonomy_term_count_nodes($term->tid);
 		$realData = views_get_view_result(chart_views, block_2, $currChildID);
+    //pr($realData);
 		$nodeCount = count($realData);
 		$fullDataArray[$currentChild]['name'] = $currChildName;
 		$fullDataArray[$currentChild]['id'] = $currChildID;
@@ -101,6 +112,20 @@ function gchart_get_data( $vid, $skip=array() ) {
   return array('data'=>$fullDataArray, 'info'=>array('vname'=>$vname,) );
 }
 
+function gchart_get_country_count() {
+  // Returns an associative array of countrycode => number of programs
+  $rawCountryData = views_get_view_result(country_list, block);
+  foreach( $rawCountryData as $entry ) {
+    $countries[] = $entry->location_country;
+  }
+  $countries = array_unique($countries);
+  
+  foreach( $countries as $country ) {
+    $viewData = views_get_view_result(chart_views, block_3, $country);
+    $countryCount[$country] = count($viewData);
+  }
+  return $countryCount;
+}
 
 // From Chris' Code
 function gchart_gettaxtree_nonnull($vid, $skip=''){
