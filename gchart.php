@@ -18,10 +18,6 @@ class GChart
       case "piechart":
         $this->type = 'PieChart';
         break;
-      case: "geomap_region":
-        $this->type = 'GeoMap';
-        $this->dataMode = 'regions';
-        break;
       default:
         $this->type = 'PieChart';
         break;
@@ -79,7 +75,6 @@ class GChart
   public $ylabel = '';
   public $type = 'PieChart';
   public $divName = 'chart_div';
-  private $dataMode;
 
   // Configuration Options
 
@@ -183,12 +178,6 @@ class GChart
     return $varChart;
   }
 
-  private function makeVarContainer() {
-    $varContainer = 'var container = document.getElementById(\''.$this->divName."');\n";
-    $varContainer .= "var geomap = new google.visualization.GeoMap(container);\n";
-    $varContainer .= "geomap.draw(data, options);\n";
-  };
-
   private function makeOptions() {
     $options = '';
     $options .= 'enableTooltip: ' . $this->enableTooltip . ', ';
@@ -214,10 +203,6 @@ class GChart
       $options .= 'titleFontSize: ' . $this->titleFontSize . ', ';
     }
 
-    if( $this->type == 'GeoMap') {
-      $options .= 'dataMode: ' . $this->dataMode . ', ';
-    }
-
     return $options;
   }
 
@@ -230,8 +215,6 @@ class GChart
     $drawChart = "function drawChart() {\n";
     $drawChart .= $this->makeVarData();
     $drawChart .= $this->makeVarChart();
-
-    //$drawChart .=
 
     $drawChart .= "\n}\n";
 
