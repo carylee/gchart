@@ -187,7 +187,8 @@ class GChart
     $varContainer = 'var container = document.getElementById(\''.$this->divName."');\n";
     $varContainer .= "var geomap = new google.visualization.GeoMap(container);\n";
     $varContainer .= "geomap.draw(data, options);\n";
-  };
+    return $varContainer;
+  }
 
   private function makeOptions() {
     $options = '';
