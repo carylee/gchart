@@ -18,7 +18,7 @@ class GChart
       case "piechart":
         $this->type = 'PieChart';
         break;
-      case: "geomap_region":
+      case "geomap_region":
         $this->type = 'GeoMap';
         $this->dataMode = 'regions';
         break;
@@ -79,7 +79,7 @@ class GChart
   public $ylabel = '';
   public $type = 'PieChart';
   public $divName = 'chart_div';
-  private $dataMode;
+  private $dataMode = '';
 
   // Configuration Options
 
