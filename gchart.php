@@ -216,7 +216,7 @@ class GChart
     }
 
     if( $this->type == 'GeoMap') {
-      $options .= 'dataMode: ' . $this->dataMode . ', ';
+      $options .= 'dataMode: \'' . $this->dataMode . '\', ';
     }
 
     return $options;
@@ -241,8 +241,8 @@ class GChart
 
   public function makeChart() {
     $chart = 'google.load("visualization", "1", {packages:["' . strtolower($this->type) . "\"]});\n";
-    $chart .= "google.setOnLoadCallback(drawChart);\n";
     $chart .= $this->makeDrawChart();
+    $chart .= "google.setOnLoadCallback(drawChart);\n";
 
     return $chart;
   }
