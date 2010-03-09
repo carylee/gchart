@@ -122,7 +122,7 @@ function gchart_get_country_count() {
   
   foreach( $countries as $country ) {
     $viewData = views_get_view_result(chart_views, block_3, $country);
-    $countryCount[$country] = count($viewData);
+    $countryCount[strtoupper($country)] = count($viewData);
   }
   return $countryCount;
 }
