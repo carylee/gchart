@@ -117,6 +117,7 @@ function gchart_get_country_count() {
   $rawCountryData = views_get_view_result(country_list, block);
   foreach( $rawCountryData as $entry ) {
     $countries[] = $entry->location_country;
+    //pr($rawCountryData);
   }
   $countries = array_unique($countries);
   
