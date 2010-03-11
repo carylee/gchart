@@ -121,9 +121,11 @@ function gchart_get_country_count() {
   }
   $countries = array_unique($countries);
   
+  $countryNames = location_get_iso3166_list();
   foreach( $countries as $country ) {
     $viewData = views_get_view_result(chart_views, block_3, $country);
-    $countryCount[strtoupper($country)] = count($viewData);
+    $countryName = $countryNames[$country];
+    $countryCount[$countryName] = count($viewData);
   }
   return $countryCount;
 }
