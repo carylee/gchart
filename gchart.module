@@ -51,8 +51,10 @@ function gchart_table( $taxData ) {
   $table = '<table class="piechart-table sortable"><thead><tr><td>' . $taxData['info']['vname'];
   $table .= '</td><td>Number of Programs</td></tr></tbody><tbody>';
   foreach( $taxData['data'] as $key=>$value ) {
-    $table .= '<tr><td><a href="'.$base_url.'/program-search/results/taxonomy%3A'. $value['id'];
-    $table .= '">' . $value['name'] . '</a></td><td>' . $value['count'] . '</td></tr>';
+    if( $value['count'] > 0 ) {
+      $table .= '<tr><td><a href="'.$base_url.'/program-search/results/taxonomy%3A'. $value['id'];
+      $table .= '">' . $value['name'] . '</a></td><td>' . $value['count'] . '</td></tr>';
+    }
   }
   $table .= '</tbody></table>';
   return $table;
