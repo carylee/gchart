@@ -13,7 +13,7 @@ class GChart
     $type = strtolower($type);
     switch ($type) {
       case "linechart":
-        $this->type = 'LineChart';
+        $this->type = 'AreaChart';
         break;
       case "piechart":
         $this->type = 'PieChart';
