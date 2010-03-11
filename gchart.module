@@ -101,6 +101,23 @@ function gchart_get_data( $vid, $skip=array() ) {
   return array('data'=>$fullDataArray, 'info'=>array('vname'=>$vname,) );
 }
 
+function gchart_get_country_count() {
+  // Returns an associative array of countrycode => number of programs
+  $rawCountryData = views_get_view_result(country_list, block);
+  foreach( $rawCountryData as $entry ) {
+    $countries[] = $entry->location_country;
+    //pr($rawCountryData);
+  }
+  $countries = array_unique($countries);
+  
+  $countryNames = location_get_iso3166_list();
+  foreach( $countries as $country ) {
+    $viewData = views_get_view_result(chart_views, block_3, $country);
+    $countryName = $countryNames[$country];
+    $countryCount[$countryName] = count($viewData);
+  }
+  return $countryCount;
+}
 
 // From Chris' Code
 function gchart_gettaxtree_nonnull($vid, $skip=''){
